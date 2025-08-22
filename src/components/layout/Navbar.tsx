@@ -16,9 +16,9 @@ import { ModeToggle } from "./mode-toggle";
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
   { href: "/", label: "Home", active: true },
-  { href: "#", label: "Features" },
+  { href: "/feature", label: "Features" },
   { href: "#", label: "Pricing" },
-  { href: "#", label: "About" },
+  { href: "/about", label: "About" },
 ];
 
 export default function Navbar() {
