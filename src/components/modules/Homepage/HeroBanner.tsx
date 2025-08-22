@@ -20,11 +20,7 @@ const HeroBanner = () => {
           >
             Get Started
           </Button>
-          <Button
-            size="lg"
-            variant="outline"
-            className="border-white text-white hover:bg-white/20"
-          >
+          <Button size="lg" className="border-white hover:bg-white/20">
             Learn More
           </Button>
         </div>

@@ -13,12 +13,11 @@ import {
 import { Link } from "react-router";
 import { ModeToggle } from "./mode-toggle";
 
-// Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
   { href: "/", label: "Home", active: true },
   { href: "/feature", label: "Features" },
-  { href: "#", label: "Pricing" },
   { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export default function Navbar() {
@@ -106,9 +105,6 @@ export default function Navbar() {
           <Button asChild variant="ghost" size="sm" className="text-sm">
             <Link to="/login">Sign In</Link>
           </Button>
-          {/* <Button asChild size="sm" className="text-sm">
-            <a href="#">Get Started</a>
-          </Button> */}
           <ModeToggle />
         </div>
       </div>

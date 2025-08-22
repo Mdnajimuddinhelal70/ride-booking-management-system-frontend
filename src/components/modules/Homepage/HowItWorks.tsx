@@ -27,7 +27,7 @@ export default function HowItWorks() {
     <section className="py-20">
       <div className="container mx-auto px-4 text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-4">How it works</h2>
-        <p className="text-gray-600 mb-12 max-w-2xl mx-auto">
+        <p className="mb-12 max-w-2xl mx-auto">
           Getting started is simple and quick. Just follow these steps and
           you’re on your way!
         </p>

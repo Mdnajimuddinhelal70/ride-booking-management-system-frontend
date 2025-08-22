@@ -1,5 +1,6 @@
 import App from "@/App";
 import AboutUs from "@/pages/AboutUs";
+import ContactPage from "@/pages/ContactPage";
 import FeaturesPage from "@/pages/FeaturesPage";
 import Homepage from "@/pages/Homepage";
 import Login from "@/pages/Login";
@@ -30,6 +31,10 @@ export const router = createBrowserRouter([
       {
         Component: FeaturesPage,
         path: "/feature",
+      },
+      {
+        Component: ContactPage,
+        path: "/contact",
       },
     ],
   },
