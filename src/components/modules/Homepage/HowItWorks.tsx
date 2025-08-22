@@ -41,7 +41,7 @@ export default function HowItWorks() {
               <CardContent className="p-6 flex flex-col items-center text-center space-y-4">
                 {step.icon}
                 <h3 className="text-xl font-semibold">{step.title}</h3>
-                <p className="text-gray-600">{step.description}</p>
+                <p className="">{step.description}</p>
               </CardContent>
             </Card>
           ))}

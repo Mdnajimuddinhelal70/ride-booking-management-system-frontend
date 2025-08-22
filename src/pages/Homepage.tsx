@@ -1,3 +1,4 @@
+import CallToAction from "@/components/modules/Homepage/CallToAction";
 import HeroBanner from "@/components/modules/Homepage/HeroBanner";
 import HowItWorks from "@/components/modules/Homepage/HowItWorks";
 import ServiceHighlights from "@/components/modules/Homepage/ServiceHighlights";
@@ -10,6 +11,7 @@ const Homepage = () => {
       <HowItWorks />
       <ServiceHighlights />
       <Testimonials />
+      <CallToAction />
     </div>
   );
 };
