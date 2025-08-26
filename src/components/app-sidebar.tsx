@@ -12,32 +12,12 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { getSidebarItems } from "@/utils/getSidebarItems";
 import { Link } from "react-router";
 
 // This is sample data.
 const data = {
-  navMain: [
-    {
-      title: "Dashboard",
-      url: "#",
-      items: [
-        {
-          title: "Add Ride",
-          url: "/admin/add-ride",
-        },
-      ],
-    },
-    {
-      title: "User Management",
-      url: "#",
-      items: [
-        {
-          title: "User Management",
-          url: "/admin/usermanagement",
-        },
-      ],
-    },
-  ],
+  navMain: getSidebarItems("RIDER"),
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {

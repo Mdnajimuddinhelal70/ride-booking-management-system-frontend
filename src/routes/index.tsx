@@ -1,8 +1,6 @@
 import App from "@/App";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import AboutUs from "@/pages/AboutUs";
-import AddRide from "@/pages/Admin/AddRide";
-import UserManagement from "@/pages/Admin/UserManagement";
 import ContactPage from "@/pages/ContactPage";
 import AcceptRide from "@/pages/Driver/AcceptRide";
 import FAQPage from "@/pages/FAQPage";
@@ -10,8 +8,10 @@ import FeaturesPage from "@/pages/FeaturesPage";
 import Homepage from "@/pages/Homepage";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
-import RequestRide from "@/pages/Rider/RequestRide";
+import { generateRoutes } from "@/utils/generateRoutes";
 import { createBrowserRouter } from "react-router";
+import { adminSidebarItems } from "./adminSidebarItems";
+import { riderSidebarItems } from "./riderSidebarItems";
 
 export const router = createBrowserRouter([
   {
@@ -53,26 +53,12 @@ export const router = createBrowserRouter([
   {
     Component: DashboardLayout,
     path: "/admin",
-    children: [
-      {
-        Component: AddRide,
-        path: "add-ride",
-      },
-      {
-        Component: UserManagement,
-        path: "usermanagement",
-      },
-    ],
+    children: [...generateRoutes(adminSidebarItems)],
   },
   {
     Component: DashboardLayout,
     path: "/rider",
-    children: [
-      {
-        Component: RequestRide,
-        path: "request-ride",
-      },
-    ],
+    children: [...generateRoutes(riderSidebarItems)],
   },
   {
     Component: DashboardLayout,
