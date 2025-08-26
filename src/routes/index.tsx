@@ -2,6 +2,7 @@ import App from "@/App";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import AboutUs from "@/pages/AboutUs";
 import AddRide from "@/pages/Admin/AddRide";
+import UserManagement from "@/pages/Admin/UserManagement";
 import ContactPage from "@/pages/ContactPage";
 import AcceptRide from "@/pages/Driver/AcceptRide";
 import FAQPage from "@/pages/FAQPage";
@@ -51,17 +52,21 @@ export const router = createBrowserRouter([
   // Layou for admin driver rider
   {
     Component: DashboardLayout,
-    path: "admin",
+    path: "/admin",
     children: [
       {
         Component: AddRide,
         path: "add-ride",
       },
+      {
+        Component: UserManagement,
+        path: "usermanagement",
+      },
     ],
   },
   {
     Component: DashboardLayout,
-    path: "rider",
+    path: "/rider",
     children: [
       {
         Component: RequestRide,
@@ -71,7 +76,7 @@ export const router = createBrowserRouter([
   },
   {
     Component: DashboardLayout,
-    path: "driver",
+    path: "/driver",
     children: [
       {
         Component: AcceptRide,
