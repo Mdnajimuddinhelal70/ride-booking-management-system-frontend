@@ -19,6 +19,12 @@ import { z } from "zod";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
+  phoneNumber: z
+    .string()
+    .regex(
+      /^01[0-9]{9}$/,
+      "Invalid phone number. Must be 11 digits and start with 01"
+    ),
   email: z.string().email("Invalid email"),
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
@@ -29,6 +35,7 @@ const RegisterForm = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
+      phoneNumber: "",
       email: "",
       password: "",
     },
@@ -39,14 +46,16 @@ const RegisterForm = () => {
       name: data.name,
       email: data.email,
       password: data.password,
+      phoneNumber: data.phoneNumber,
     };
     try {
       const result = await register(userInfo).unwrap();
       toast.success("User register successfully.");
       console.log(result);
     } catch (error: any) {
-      console.log(error);
-      toast.error(error);
+      const errorMessage = error?.data?.message || "Registration failed";
+      console.log(errorMessage);
+      toast.error(errorMessage);
     }
   };
 
@@ -65,6 +74,19 @@ const RegisterForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Your Name..." {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="phoneNumber"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Phone Number</FormLabel>
                   <FormControl>
                     <Input placeholder="Your Name..." {...field} />
                   </FormControl>
