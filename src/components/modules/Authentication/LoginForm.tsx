@@ -1,13 +1,60 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useLoginMutation } from "@/redux/features/auth/auth.api";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useId } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
-export default function LoginForm() {
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+
+// ✅ schema
+const loginSchema = z.object({
+  email: z.string().email("Invalid email"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+});
+
+type LoginFormValues = z.infer<typeof loginSchema>;
+
+const LoginForm = () => {
   const id = useId();
+  const [login] = useLoginMutation();
+
+  // ✅ useForm with shadcn Form
+  const form = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  // ✅ handle submit
+  const onSubmit = async (data: LoginFormValues) => {
+    try {
+      const result = await login(data).unwrap();
+      console.log(result);
+      toast.success("Login successful!");
+    } catch (error: any) {
+      console.log(error);
+      const errorMessage = error?.data?.message || "Login failed";
+      toast.error(errorMessage);
+    }
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center">
       <div className="w-full max-w-md rounded-2xl p-8 shadow-lg">
+        {/* Header */}
         <div className="flex flex-col items-center gap-2 mb-6">
           <div
             className="flex size-11 shrink-0 items-center justify-center rounded-full border"
@@ -30,33 +77,59 @@ export default function LoginForm() {
           </p>
         </div>
 
-        <form className="space-y-5">
-          <div className="space-y-4">
-            <div className="*:not-first:mt-2">
-              <Label htmlFor={`${id}-email`}>Email</Label>
-              <Input
-                id={`${id}-email`}
-                placeholder="Enter Your Email..."
-                type="email"
-                required
+        {/* ✅ shadcn form */}
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+            <div className="space-y-4">
+              {/* Email */}
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor={`${id}-email`}>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        id={`${id}-email`}
+                        placeholder="Enter your email..."
+                        type="email"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Password */}
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor={`${id}-password`}>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        id={`${id}-password`}
+                        placeholder="Enter your password"
+                        type="password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
             </div>
-            <div className="*:not-first:mt-2">
-              <Label htmlFor={`${id}-password`}>Password</Label>
-              <Input
-                id={`${id}-password`}
-                placeholder="Enter your password"
-                type="password"
-                required
-              />
-            </div>
-          </div>
 
-          <Button type="button" className="w-full">
-            Login
-          </Button>
-        </form>
+            {/* Submit button */}
+            <Button type="submit" className="w-full">
+              Login
+            </Button>
+          </form>
+        </Form>
 
+        {/* Sign up link */}
         <p className="text-center text-sm text-gray-500 mt-4">
           New here?{" "}
           <a href="/register" className="text-blue-600 hover:underline">
@@ -66,4 +139,6 @@ export default function LoginForm() {
       </div>
     </div>
   );
-}
+};
+
+export default LoginForm;
