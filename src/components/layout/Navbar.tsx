@@ -11,6 +11,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Link } from "react-router";
+import projectLogo from "../../assets/icons/image.png";
 import { ModeToggle } from "./mode-toggle";
 
 const navigationLinks = [
@@ -82,7 +83,13 @@ export default function Navbar() {
           </Popover>
           {/* Main nav */}
           <div className="flex items-center gap-6">
-            <h3 className="text-red-500 font-extrabold"> Website Name</h3>
+            <h3 className="text-red-500 font-extrabold">
+              <img
+                src={projectLogo}
+                alt="Logo"
+                className="h-4 w-5 text-4xl text-amber-500"
+              />
+            </h3>
             {/* Navigation menu */}
             <NavigationMenu className="max-md:hidden">
               <NavigationMenuList className="gap-2">
