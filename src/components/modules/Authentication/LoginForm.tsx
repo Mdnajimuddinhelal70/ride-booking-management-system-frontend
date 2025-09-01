@@ -1,11 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useLoginMutation } from "@/redux/features/auth/auth.api";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useId } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,20 +9,33 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useLoginMutation } from "@/redux/features/auth/auth.api";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { jwtDecode } from "jwt-decode";
+import { useId } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
+import { toast } from "sonner";
+import { z } from "zod";
 
-// ✅ schema
 const loginSchema = z.object({
   email: z.string().email("Invalid email"),
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
-
+type JwtPayload = {
+  userId: string;
+  email: string;
+  role: "ADMIN" | "RIDER" | "DRIVER";
+  iat: number;
+  exp: number;
+};
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 const LoginForm = () => {
   const id = useId();
   const [login] = useLoginMutation();
+  const navigate = useNavigate();
 
-  // ✅ useForm with shadcn Form
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -38,12 +44,28 @@ const LoginForm = () => {
     },
   });
 
-  // ✅ handle submit
   const onSubmit = async (data: LoginFormValues) => {
     try {
       const result = await login(data).unwrap();
       console.log(result);
       toast.success("Login successful!");
+
+      const token = result.data.accessToken;
+      localStorage.setItem("accessToken", token);
+      const decoded = jwtDecode<JwtPayload>(token);
+
+      // Token decode
+      // const decoded = jwtDecode<JwtPayload>(token);
+      // console.log("TOKEN:", token);
+      if (decoded.role === "ADMIN") {
+        navigate("/admin/add-ride");
+      } else if (decoded.role === "RIDER") {
+        navigate("/rider/ride-request");
+      } else if (decoded.role === "DRIVER") {
+        navigate("/driver/accept-rideRequests");
+      } else {
+        navigate("/");
+      }
     } catch (error: any) {
       console.log(error);
       const errorMessage = error?.data?.message || "Login failed";

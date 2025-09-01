@@ -2,7 +2,6 @@ import App from "@/App";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import AboutUs from "@/pages/AboutUs";
 import ContactPage from "@/pages/ContactPage";
-import AcceptRide from "@/pages/Driver/AcceptRide";
 import FAQPage from "@/pages/FAQPage";
 import FeaturesPage from "@/pages/FeaturesPage";
 import Homepage from "@/pages/Homepage";
@@ -11,6 +10,7 @@ import Register from "@/pages/Register";
 import { generateRoutes } from "@/utils/generateRoutes";
 import { createBrowserRouter } from "react-router";
 import { adminSidebarItems } from "./adminSidebarItems";
+import { driverSidebarItems } from "./driverSidebarItems";
 import { riderSidebarItems } from "./riderSidebarItems";
 
 export const router = createBrowserRouter([
@@ -63,11 +63,6 @@ export const router = createBrowserRouter([
   {
     Component: DashboardLayout,
     path: "/driver",
-    children: [
-      {
-        Component: AcceptRide,
-        path: "accept-ride",
-      },
-    ],
+    children: [...generateRoutes(driverSidebarItems)],
   },
 ]);
