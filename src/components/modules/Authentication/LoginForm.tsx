@@ -17,6 +17,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { z } from "zod";
+import DemoLoginButtons from "./DemoLoginButtons";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email"),
@@ -94,6 +95,7 @@ const LoginForm = () => {
             </svg>
           </div>
           <h2 className="text-2xl font-bold text-center">Welcome back</h2>
+          <DemoLoginButtons />
           <p className="text-muted-foreground text-sm text-center">
             Enter your credentials to login to your account.
           </p>
