@@ -10,7 +10,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useEffect, useState } from "react";
 import { Link } from "react-router";
+
 import projectLogo from "../../assets/icons/image.png";
 import { ModeToggle } from "./mode-toggle";
 
@@ -23,6 +25,22 @@ const navigationLinks = [
 ];
 
 export default function Navbar() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
+
+  const hanleLoggedOut = () => {
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+    window.location.href = "/";
+  };
   return (
     <header className="border-b px-4 md:px-6 sticky top-0 z-50 bg-white dark:bg-gray-900">
       <div className="flex h-16 items-center justify-between gap-4">
@@ -110,9 +128,22 @@ export default function Navbar() {
         </div>
         {/* Right side */}
         <div className="flex items-center gap-2">
-          <Button asChild variant="ghost" size="sm" className="text-sm">
-            <Link to="/login">Sign In</Link>
-          </Button>
+          {isLoggedIn ? (
+            <Button
+              onClick={hanleLoggedOut}
+              asChild
+              variant="ghost"
+              size="sm"
+              className="text-sm"
+            >
+              <Link to="/login">Log Out</Link>
+            </Button>
+          ) : (
+            <Button asChild variant="ghost" size="sm" className="text-sm">
+              <Link to="/login">Sign In</Link>
+            </Button>
+          )}
+
           <ModeToggle />
         </div>
       </div>

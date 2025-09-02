@@ -14,7 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { jwtDecode } from "jwt-decode";
 import { useId } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
 import { z } from "zod";
 import DemoLoginButtons from "./DemoLoginButtons";
@@ -153,9 +153,9 @@ const LoginForm = () => {
         {/* Sign up link */}
         <p className="text-center text-sm text-gray-500 mt-4">
           New here?{" "}
-          <a href="/register" className="text-blue-600 hover:underline">
+          <Link to="/register" className="text-blue-600 hover:underline">
             Sign up
-          </a>
+          </Link>
         </p>
       </div>
     </div>
