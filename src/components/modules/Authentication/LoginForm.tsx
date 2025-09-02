@@ -55,9 +55,6 @@ const LoginForm = () => {
       localStorage.setItem("accessToken", token);
       const decoded = jwtDecode<JwtPayload>(token);
 
-      // Token decode
-      // const decoded = jwtDecode<JwtPayload>(token);
-      // console.log("TOKEN:", token);
       if (decoded.role === "ADMIN") {
         navigate("/admin/add-ride");
       } else if (decoded.role === "RIDER") {
