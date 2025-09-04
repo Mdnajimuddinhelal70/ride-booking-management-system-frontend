@@ -26,6 +26,7 @@ const formSchema = z.object({
     ),
   email: z.string().email("Invalid email"),
   password: z.string().min(6, "Password must be at least 6 characters"),
+  role: z.enum(["rider", "driver"], "Please select a role"),
 });
 
 const RegisterForm = () => {
@@ -37,6 +38,7 @@ const RegisterForm = () => {
       phoneNumber: "",
       email: "",
       password: "",
+      role: "rider",
     },
   });
 
@@ -46,6 +48,7 @@ const RegisterForm = () => {
       email: data.email,
       password: data.password,
       phoneNumber: data.phoneNumber,
+      role: data.role,
     };
     try {
       const result = await register(userInfo).unwrap();
@@ -124,6 +127,25 @@ const RegisterForm = () => {
                       placeholder="Enter Password..."
                       {...field}
                     />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="role"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Role</FormLabel>
+                  <FormControl>
+                    <select
+                      {...field}
+                      className="w-full border rounded px-2 py-1"
+                    >
+                      <option value="rider">Rider</option>
+                      <option value="driver">Driver</option>
+                    </select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
