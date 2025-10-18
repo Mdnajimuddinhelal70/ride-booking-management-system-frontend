@@ -26,7 +26,7 @@ const formSchema = z.object({
     ),
   email: z.string().email("Invalid email"),
   password: z.string().min(6, "Password must be at least 6 characters"),
-  role: z.enum(["rider", "driver"], "Please select a role"),
+  role: z.enum(["rider", "driver", "admin"], "Please select a role"),
 });
 
 const RegisterForm = () => {
@@ -90,7 +90,7 @@ const RegisterForm = () => {
                 <FormItem>
                   <FormLabel>Phone Number</FormLabel>
                   <FormControl>
-                    <Input placeholder="Your Name..." {...field} />
+                    <Input placeholder="Phone Number..." {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -145,6 +145,7 @@ const RegisterForm = () => {
                     >
                       <option value="rider">Rider</option>
                       <option value="driver">Driver</option>
+                      <option value="admin">Amin</option>
                     </select>
                   </FormControl>
                   <FormMessage />

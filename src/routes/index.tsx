@@ -1,6 +1,7 @@
 import App from "@/App";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import AboutUs from "@/pages/AboutUs";
+import AccountStatusPage from "@/pages/AccountStatusPage";
 import ContactPage from "@/pages/ContactPage";
 import FAQPage from "@/pages/FAQPage";
 import FeaturesPage from "@/pages/FeaturesPage";
@@ -45,6 +46,10 @@ export const router = createBrowserRouter([
       {
         Component: FAQPage,
         path: "/faq",
+      },
+      {
+        Component: AccountStatusPage,
+        path: "/account-status",
       },
     ],
   },

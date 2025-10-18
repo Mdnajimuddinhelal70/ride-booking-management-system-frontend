@@ -1,3 +1,59 @@
+// /* eslint-disable @typescript-eslint/no-explicit-any */
+// import { Button } from "@/components/ui/button";
+// import { useLoginMutation } from "@/redux/features/auth/auth.api";
+// import { useNavigate } from "react-router";
+// import { toast } from "sonner";
+
+// const DemoLoginButtons = () => {
+//   const [login] = useLoginMutation();
+//   const navigate = useNavigate();
+
+//   const handleDemoLogin = async (role: "admin" | "driver" | "rider") => {
+//     try {
+//       let credentials;
+
+//       if (role === "admin") {
+//         credentials = { email: "admin@gmail.com", password: "123456!@NN" };
+//       } else if (role === "driver") {
+//         credentials = { email: "driver@gmail.com", password: "123456!@NN" };
+//       } else {
+//         credentials = { email: "rider@gmail.com", password: "123456!@NN" };
+//       }
+
+//       // redux login call
+//       const result = await login(credentials).unwrap();
+//       console.log(result);
+
+//       toast.success("Login successful!");
+
+//       // save token
+//       localStorage.setItem("token", result.accessToken);
+
+//       // redirect based on role
+//       if (role === "admin") {
+//         navigate("/admin/add-ride");
+//       } else if (role === "driver") {
+//         navigate("/driver/accept-rideRequests");
+//       } else {
+//         navigate("/rider/ride-request");
+//       }
+//     } catch (error: any) {
+//       console.error(error);
+//       toast.error(error?.data?.message || "Login failed!");
+//     }
+//   };
+
+//   return (
+//     <div className="flex gap-3 mt-4">
+//       <Button onClick={() => handleDemoLogin("admin")}>Login as Admin</Button>
+//       <Button onClick={() => handleDemoLogin("driver")}>Login as Driver</Button>
+//       <Button onClick={() => handleDemoLogin("rider")}>Login as Rider</Button>
+//     </div>
+//   );
+// };
+
+// export default DemoLoginButtons;
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import { useLoginMutation } from "@/redux/features/auth/auth.api";
@@ -8,31 +64,35 @@ const DemoLoginButtons = () => {
   const [login] = useLoginMutation();
   const navigate = useNavigate();
 
-  const handleDemoLogin = async (role: "ADMIN" | "DRIVER" | "RIDER") => {
+  const handleDemoLogin = async (role: "admin" | "driver" | "rider") => {
     try {
       let credentials;
 
-      if (role === "ADMIN") {
-        credentials = { email: "admin@demo.com", password: "123456!@NN" };
-      } else if (role === "DRIVER") {
-        credentials = { email: "driver@demo.com", password: "123456!@NN" };
+      if (role === "admin") {
+        credentials = { email: "admin@gmail.com", password: "123456!@NN" };
+      } else if (role === "driver") {
+        credentials = { email: "driver@gmail.com", password: "123456!@NN" };
       } else {
-        credentials = { email: "rider@demo.com", password: "123456!@NN" };
+        credentials = { email: "rider@gmail.com", password: "123456!@NN" };
       }
 
       // redux login call
-      const result = await login(credentials).unwrap();
+      const result: any = await login(credentials).unwrap();
       console.log(result);
 
       toast.success("Login successful!");
 
-      // save token
-      localStorage.setItem("token", result.accessToken);
+      // ✅ পরিবর্তন এখানে করেছি ↓↓↓
+      // আগের ছিল -> localStorage.setItem("token", result.accessToken);
+      // এখন সঠিকভাবে টোকেন সেট করছি যেটা axios interceptor পড়বে
+      localStorage.setItem("accessToken", result?.data?.accessToken);
+      console.log(result?.data?.accessToken);
+      // ↑↑↑ এই লাইনটা যোগ করা হয়েছে যাতে axiosInstance interceptor কাজ করে
 
       // redirect based on role
-      if (role === "ADMIN") {
+      if (role === "admin") {
         navigate("/admin/add-ride");
-      } else if (role === "DRIVER") {
+      } else if (role === "driver") {
         navigate("/driver/accept-rideRequests");
       } else {
         navigate("/rider/ride-request");
@@ -45,9 +105,9 @@ const DemoLoginButtons = () => {
 
   return (
     <div className="flex gap-3 mt-4">
-      <Button onClick={() => handleDemoLogin("ADMIN")}>Login as Admin</Button>
-      <Button onClick={() => handleDemoLogin("DRIVER")}>Login as Driver</Button>
-      <Button onClick={() => handleDemoLogin("RIDER")}>Login as Rider</Button>
+      <Button onClick={() => handleDemoLogin("admin")}>Login as Admin</Button>
+      <Button onClick={() => handleDemoLogin("driver")}>Login as Driver</Button>
+      <Button onClick={() => handleDemoLogin("rider")}>Login as Rider</Button>
     </div>
   );
 };

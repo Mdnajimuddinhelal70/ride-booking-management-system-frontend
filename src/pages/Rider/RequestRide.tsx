@@ -1,5 +1,11 @@
+import RideRequestForm from "./RideRequestForm";
+
 const RequestRide = () => {
-  return <div>RequestRide</div>;
+  return (
+    <div>
+      <RideRequestForm />
+    </div>
+  );
 };
 
 export default RequestRide;
