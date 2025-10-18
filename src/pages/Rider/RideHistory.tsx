@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Table,
@@ -7,34 +8,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useRiderHistoryQuery } from "@/redux/features/rides/ride.api";
 
 const RideHistory = () => {
-  const rides = [
-    {
-      pickupLocation: "Nadar Ghat",
-      destinationLocation: "Chunar Ghat",
-      status: "completed",
-      driverName: "Rahim Uddin",
-      ridePrice: 350,
-      requestedAt: "2025-10-10T10:20:00",
-    },
-    {
-      pickupLocation: "Sylhet-2",
-      destinationLocation: "Dhanmondi",
-      status: "cancelled",
-      driverName: "Kamal Hossain",
-      ridePrice: 0,
-      requestedAt: "2025-10-12T08:45:00",
-    },
-    {
-      pickupLocation: "Airport",
-      destinationLocation: "Mirpur",
-      status: "requested",
-      driverName: "Pending",
-      ridePrice: 480,
-      requestedAt: "2025-10-14T12:15:00",
-    },
-  ];
+  const { data, isLoading, isError } = useRiderHistoryQuery();
+  const rides = data?.data || [];
+  console.log(rides);
+  if (isLoading) return <p className="text-center mt-10">Loading...</p>;
+  if (isError)
+    return (
+      <p className="text-center mt-10 text-red-500">Failed to load rides!</p>
+    );
 
   return (
     <Card className="shadow-lg border border-gray-200">
@@ -56,7 +40,7 @@ const RideHistory = () => {
           </TableHeader>
 
           <TableBody>
-            {rides.map((ride, idx) => (
+            {rides?.map((ride: any, idx: any) => (
               <TableRow key={idx}>
                 <TableCell>{ride.pickupLocation}</TableCell>
                 <TableCell>{ride.destinationLocation}</TableCell>
