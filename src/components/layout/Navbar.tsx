@@ -10,9 +10,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useEffect, useState } from "react";
+import {
+  useLogoutMutation,
+  useUserInfoQuery,
+} from "@/redux/features/auth/auth.api";
 import { Link } from "react-router";
-
 import projectLogo from "../../assets/icons/image.png";
 import { ModeToggle } from "./mode-toggle";
 
@@ -25,28 +27,20 @@ const navigationLinks = [
 ];
 
 export default function Navbar() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { data: userData, isLoading } = useUserInfoQuery(undefined);
+  const [logout] = useLogoutMutation();
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, []);
+  const handleLogout = async () => {
+    await logout(undefined).unwrap();
 
-  const hanleLoggedOut = () => {
-    localStorage.removeItem("token");
-    setIsLoggedIn(false);
-    window.location.href = "/";
+    window.location.href = "/login";
   };
+
   return (
     <header className="border-b px-4 md:px-6 sticky top-0 z-50 bg-white dark:bg-gray-900">
       <div className="flex h-16 items-center justify-between gap-4">
         {/* Left side */}
         <div className="flex items-center gap-2">
-          {/* Mobile menu trigger */}
           <Popover>
             <PopoverTrigger asChild>
               <Button
@@ -66,18 +60,9 @@ export default function Navbar() {
                   strokeLinejoin="round"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path
-                    d="M4 12L20 12"
-                    className="origin-center -translate-y-[7px] transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-x-0 group-aria-expanded:translate-y-0 group-aria-expanded:rotate-[315deg]"
-                  />
-                  <path
-                    d="M4 12H20"
-                    className="origin-center transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] group-aria-expanded:rotate-45"
-                  />
-                  <path
-                    d="M4 12H20"
-                    className="origin-center translate-y-[7px] transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-y-0 group-aria-expanded:rotate-[135deg]"
-                  />
+                  <path d="M4 12L20 12" />
+                  <path d="M4 12H20" />
+                  <path d="M4 12H20" />
                 </svg>
               </Button>
             </PopoverTrigger>
@@ -99,7 +84,7 @@ export default function Navbar() {
               </NavigationMenu>
             </PopoverContent>
           </Popover>
-          {/* Main nav */}
+
           <div className="flex items-center gap-6">
             <h3 className="text-red-500 font-extrabold">
               <img
@@ -108,7 +93,7 @@ export default function Navbar() {
                 className="h-4 w-5 text-4xl text-amber-500"
               />
             </h3>
-            {/* Navigation menu */}
+
             <NavigationMenu className="max-md:hidden">
               <NavigationMenuList className="gap-2">
                 {navigationLinks.map((link, index) => (
@@ -126,17 +111,17 @@ export default function Navbar() {
             </NavigationMenu>
           </div>
         </div>
+
         {/* Right side */}
         <div className="flex items-center gap-2">
-          {isLoggedIn ? (
+          {!isLoading && userData ? (
             <Button
-              onClick={hanleLoggedOut}
-              asChild
+              onClick={handleLogout}
               variant="ghost"
               size="sm"
               className="text-sm"
             >
-              <Link to="/login">Log Out</Link>
+              Log Out
             </Button>
           ) : (
             <Button asChild variant="ghost" size="sm" className="text-sm">
