@@ -11,9 +11,11 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import {
+  authApi,
   useLogoutMutation,
   useUserInfoQuery,
 } from "@/redux/features/auth/auth.api";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router";
 import projectLogo from "../../assets/icons/image.png";
 import { ModeToggle } from "./mode-toggle";
@@ -27,11 +29,13 @@ const navigationLinks = [
 ];
 
 export default function Navbar() {
-  const { data: userData, isLoading } = useUserInfoQuery(undefined);
+  const { data: userData } = useUserInfoQuery(undefined);
   const [logout] = useLogoutMutation();
+  const dispatch = useDispatch();
 
   const handleLogout = async () => {
     await logout(undefined).unwrap();
+    dispatch(authApi.util.resetApiState());
 
     window.location.href = "/login";
   };
@@ -114,18 +118,18 @@ export default function Navbar() {
 
         {/* Right side */}
         <div className="flex items-center gap-2">
-          {!isLoading && userData ? (
+          {userData && (
             <Button
               onClick={handleLogout}
-              variant="ghost"
-              size="sm"
+              variant="outline"
               className="text-sm"
             >
-              Log Out
+              Logout
             </Button>
-          ) : (
-            <Button asChild variant="ghost" size="sm" className="text-sm">
-              <Link to="/login">Sign In</Link>
+          )}
+          {!userData && (
+            <Button asChild className="text-sm">
+              <Link to="/login">Login</Link>
             </Button>
           )}
 
