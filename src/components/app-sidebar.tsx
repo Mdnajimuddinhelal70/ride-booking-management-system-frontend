@@ -15,11 +15,12 @@ import { authApi, useLogoutMutation } from "@/redux/features/auth/auth.api";
 import { getSidebarItems } from "@/utils/getSidebarItems";
 import * as React from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [logout] = useLogoutMutation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { user } = useAuth();
   const role = user?.role || "RIDER";
   const data = {
@@ -29,7 +30,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const handleLogout = async () => {
     await logout(undefined);
     dispatch(authApi.util.resetApiState());
-    window.location.href = "/login";
+    navigate("/login", { replace: true });
   };
   return (
     <Sidebar {...props}>

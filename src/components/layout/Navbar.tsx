@@ -16,7 +16,7 @@ import {
   useUserInfoQuery,
 } from "@/redux/features/auth/auth.api";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import projectLogo from "../../assets/icons/image.png";
 import { ModeToggle } from "./mode-toggle";
 
@@ -32,12 +32,13 @@ export default function Navbar() {
   const { data: userData } = useUserInfoQuery(undefined);
   const [logout] = useLogoutMutation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     await logout(undefined).unwrap();
     dispatch(authApi.util.resetApiState());
 
-    window.location.href = "/login";
+    navigate("/login", { replace: true });
   };
 
   return (
