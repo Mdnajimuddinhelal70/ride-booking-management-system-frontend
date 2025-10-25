@@ -30,6 +30,7 @@ const navigationLinks = [
 
 export default function Navbar() {
   const { data: userData } = useUserInfoQuery(undefined);
+  console.log(userData);
   const [logout] = useLogoutMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
