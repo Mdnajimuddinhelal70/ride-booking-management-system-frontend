@@ -7,17 +7,18 @@ import {
   useUserInfoQuery,
 } from "@/redux/features/auth/auth.api";
 import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 interface FormState {
   name: string;
   phoneNumber: string;
   oldPassword: string;
   newPassword: string;
+  driverLicense?: string;
 }
 
 export default function ProfileUpdate() {
-  const { data: userData } = useUserInfoQuery(undefined);
-  console.log(userData.data);
+  const { data: userData, isLoading, isError } = useUserInfoQuery(undefined);
   const [updateProfile] = useUpdateProfileMutation();
 
   const [form, setForm] = useState<FormState>({
@@ -25,15 +26,17 @@ export default function ProfileUpdate() {
     phoneNumber: "",
     oldPassword: "",
     newPassword: "",
+    driverLicense: "",
   });
 
-  // User data load
+  // User data load safely
   useEffect(() => {
-    if (userData) {
+    if (userData?.data) {
       setForm((prev) => ({
         ...prev,
-        name: userData.name || "",
-        phoneNumber: userData.phoneNumber || "",
+        name: userData.data.name || "",
+        phoneNumber: userData.data.phoneNumber || "",
+        driverLicense: (userData.data as any).driverLicense || "",
       }));
     }
   }, [userData]);
@@ -46,11 +49,16 @@ export default function ProfileUpdate() {
     e.preventDefault();
     try {
       await updateProfile(form).unwrap();
-      alert("Profile updated successfully!");
+      toast.success("Profile updated successfully!");
     } catch (err: any) {
-      alert(err?.data?.message || "Something went wrong!");
+      toast.error(err?.data?.message || "Something went wrong!");
     }
   };
+
+  // Handle loading or error state
+  if (isLoading) return <p className="text-center mt-10">Loading...</p>;
+  if (isError)
+    return <p className="text-center mt-10">Something went wrong!</p>;
 
   return (
     <div className="max-w-5xl mx-auto mt-10 p-6 bg-white dark:bg-gray-900 shadow-lg rounded-xl flex flex-col md:flex-row gap-8">
@@ -59,7 +67,9 @@ export default function ProfileUpdate() {
         <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-100">
           Update Profile
         </h2>
+
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+          {/* Name */}
           <div>
             <label className="block text-gray-700 dark:text-gray-300 mb-1">
               Name
@@ -73,6 +83,7 @@ export default function ProfileUpdate() {
             />
           </div>
 
+          {/* Phone */}
           <div>
             <label className="block text-gray-700 dark:text-gray-300 mb-1">
               Phone Number
@@ -86,6 +97,7 @@ export default function ProfileUpdate() {
             />
           </div>
 
+          {/* Old Password */}
           <div>
             <label className="block text-gray-700 dark:text-gray-300 mb-1">
               Old Password
@@ -100,6 +112,7 @@ export default function ProfileUpdate() {
             />
           </div>
 
+          {/* New Password */}
           <div>
             <label className="block text-gray-700 dark:text-gray-300 mb-1">
               New Password
@@ -114,15 +127,15 @@ export default function ProfileUpdate() {
             />
           </div>
 
-          {/* Future fields based on role */}
-          {userData?.role === "driver" && (
+          {/* Driver License - only for driver role */}
+          {userData?.data?.role === "driver" && (
             <div>
               <label className="block text-gray-700 dark:text-gray-300 mb-1">
                 Driver License
               </label>
               <Input
                 name="driverLicense"
-                value={(form as any).driverLicense || ""}
+                value={form.driverLicense || ""}
                 onChange={handleChange}
                 placeholder="Driver License"
                 className="w-full"
@@ -143,11 +156,11 @@ export default function ProfileUpdate() {
         </h3>
         <p>
           <span className="font-medium">Name:</span>{" "}
-          {form.name || userData?.name}
+          {form.name || userData?.data?.name}
         </p>
         <p>
           <span className="font-medium">Phone:</span>{" "}
-          {form.phoneNumber || userData?.phoneNumber}
+          {form.phoneNumber || userData?.data?.phoneNumber}
         </p>
         <p>
           <span className="font-medium">Email:</span> {userData?.data?.email}
