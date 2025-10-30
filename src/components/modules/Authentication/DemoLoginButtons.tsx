@@ -4,6 +4,7 @@ import {
   useLoginMutation,
   useUserInfoQuery,
 } from "@/redux/features/auth/auth.api";
+import type { TRole } from "@/types";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
@@ -24,7 +25,7 @@ const DemoLoginButtons = () => {
   const navigate = useNavigate();
   const { refetch } = useUserInfoQuery(null);
 
-  const handleDemoLogin = async (role: "admin" | "driver" | "rider") => {
+  const handleDemoLogin = async (role: TRole) => {
     try {
       const credentials = demoUsers[role];
       await login(credentials).unwrap();
