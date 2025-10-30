@@ -29,7 +29,6 @@ export default function ProfileUpdate() {
     driverLicense: "",
   });
 
-  // User data load safely
   useEffect(() => {
     if (userData?.data) {
       setForm((prev) => ({
@@ -55,7 +54,6 @@ export default function ProfileUpdate() {
     }
   };
 
-  // Handle loading or error state
   if (isLoading) return <p className="text-center mt-10">Loading...</p>;
   if (isError)
     return <p className="text-center mt-10">Something went wrong!</p>;
