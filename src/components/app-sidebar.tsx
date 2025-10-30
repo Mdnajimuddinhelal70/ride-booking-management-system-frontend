@@ -1,3 +1,7 @@
+import { useUserInfoQuery } from "@/redux/features/auth/auth.api";
+import { getSidebarItems } from "@/utils/getSidebarItems";
+
+import { Link } from "react-router";
 import {
   Sidebar,
   SidebarContent,
@@ -9,42 +13,34 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-} from "@/components/ui/sidebar";
-import { useAuth } from "@/context/AuthContext";
-import { authApi, useLogoutMutation } from "@/redux/features/auth/auth.api";
-import { getSidebarItems } from "@/utils/getSidebarItems";
-import * as React from "react";
-import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router";
+} from "./ui/sidebar";
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const [logout] = useLogoutMutation();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { user } = useAuth();
-  const role = user?.role || "RIDER";
-  const data = {
+export function AppSidebar({ ...props }) {
+  const { data, isLoading } = useUserInfoQuery(null);
+  const userRole = data?.data?.role;
+
+  const role =
+    userRole === "admin" ? "admin" : userRole === "driver" ? "driver" : "rider";
+
+  const dataSidebar = {
     navMain: getSidebarItems(role),
   };
 
-  const handleLogout = async () => {
-    await logout(undefined);
-    dispatch(authApi.util.resetApiState());
-    navigate("/login", { replace: true });
-  };
+  if (isLoading) return <div>Loading sidebar...</div>;
+
   return (
     <Sidebar {...props}>
-      <SidebarHeader>{/* {Logo} */}</SidebarHeader>
+      <SidebarHeader />
       <SidebarContent>
-        {data.navMain.map((item) => (
+        {dataSidebar.navMain.map((item) => (
           <SidebarGroup key={item.title}>
             <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {item.items.map((item) => (
-                  <SidebarMenuItem key={item.title}>
+                {item.items.map((menu) => (
+                  <SidebarMenuItem key={menu.title}>
                     <SidebarMenuButton asChild>
-                      <Link to={item.url}>{item.title}</Link>
+                      <Link to={menu.url}>{menu.title}</Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
@@ -54,7 +50,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         ))}
       </SidebarContent>
       <SidebarRail />
-      <button onClick={handleLogout}>Logout</button>
     </Sidebar>
   );
 }
