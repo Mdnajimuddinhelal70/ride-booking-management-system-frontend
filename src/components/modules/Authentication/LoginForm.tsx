@@ -53,10 +53,8 @@ const LoginForm = () => {
       const result = await login(data).unwrap();
       toast.success("Login successful!");
 
-      // ✅ Decode token from result
+    
       const decoded = jwtDecode<JwtPayload>(result?.data?.accessToken);
-
-      // ✅ Role based redirect
       if (decoded.role === "admin") {
         navigate("/admin/add-ride");
       } else if (decoded.role === "rider") {
