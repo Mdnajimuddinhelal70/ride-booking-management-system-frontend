@@ -24,7 +24,7 @@ const DriverAvailability = () => {
     const newStatus = status === "online" ? "offline" : "online";
 
     try {
-      await updateAvailability(newStatus).unwrap();
+      await updateAvailability({ availability: newStatus }).unwrap();
       setStatus(newStatus);
       toast.success(`You are now ${newStatus}`);
     } catch (error) {
