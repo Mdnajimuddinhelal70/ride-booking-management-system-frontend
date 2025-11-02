@@ -2,6 +2,14 @@ import { baseApi } from "@/redux/baseApi";
 
 const driverApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    getPendingRides: builder.query({
+      query: (getRides) => ({
+        url: "/driver/requested",
+        method: "GET",
+        data: getRides,
+      }),
+    }),
+
     updateAvailability: builder.mutation({
       query: (availability) => ({
         url: "/driver/availability",
@@ -13,4 +21,5 @@ const driverApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useUpdateAvailabilityMutation } = driverApi;
+export const { useUpdateAvailabilityMutation, useGetPendingRidesQuery } =
+  driverApi;
