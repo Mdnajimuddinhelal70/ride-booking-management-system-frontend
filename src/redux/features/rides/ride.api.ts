@@ -16,7 +16,7 @@ const rideApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
-    updateRideStatus: builder.mutation({
+    handleRideAction: builder.mutation({
       query: ({
         rideId,
         action,
@@ -24,11 +24,12 @@ const rideApi = baseApi.injectEndpoints({
         rideId: string;
         action: "accept" | "reject";
       }) => ({
-        url: `/rides/${rideId}/action`,
+        url: `/ride/${rideId}/action`,
         method: "PATCH",
         data: { action },
       }),
-      invalidatesTags: ["RIDER"],
+
+      // invalidatesTags: ["RIDES"],
     }),
   }),
 });
@@ -36,5 +37,5 @@ const rideApi = baseApi.injectEndpoints({
 export const {
   useCreateRideRequestMutation,
   useRiderHistoryQuery,
-  useUpdateRideStatusMutation,
+  useHandleRideActionMutation,
 } = rideApi;

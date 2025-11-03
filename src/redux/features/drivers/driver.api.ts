@@ -8,6 +8,7 @@ const driverApi = baseApi.injectEndpoints({
         method: "GET",
         data: getRides,
       }),
+      providesTags: ["RIDES"],
     }),
 
     updateAvailability: builder.mutation({

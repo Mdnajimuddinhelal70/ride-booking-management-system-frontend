@@ -1,25 +1,46 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useGetPendingRidesQuery } from "@/redux/features/drivers/driver.api";
-import { useUpdateRideStatusMutation } from "@/redux/features/rides/ride.api";
+import { useHandleRideActionMutation } from "@/redux/features/rides/ride.api";
+import type { RideRequest } from "@/types/ride.type";
 import React from "react";
 
 const AcceptRideRequests: React.FC = () => {
-  const { data: rideRequests = [], isLoading } = useGetPendingRidesQuery(null);
-  console.log(rideRequests.data);
-  const [updateRideStatus] = useUpdateRideStatusMutation();
+  const { data: rideRequestsResponse, isLoading } =
+    useGetPendingRidesQuery(null);
+
+  const [localRides, setLocalRides] = React.useState<RideRequest[]>([]);
+
+  const [updateRideStatus, { isLoading: isUpdating }] =
+    useHandleRideActionMutation();
+
+  React.useEffect(() => {
+    if (rideRequestsResponse?.data) {
+      setLocalRides(rideRequestsResponse.data);
+    }
+  }, [rideRequestsResponse]);
 
   const handleAction = async (rideId: string, action: "accept" | "reject") => {
     try {
       await updateRideStatus({ rideId, action }).unwrap();
+
+      if (action === "accept") {
+        const updated = localRides.map((ride) =>
+          ride._id === rideId ? { ...ride, status: "accepted" as const } : ride
+        );
+        setLocalRides(updated);
+      }
+
+      if (action === "reject") {
+        setLocalRides((prev) => prev.filter((ride) => ride._id !== rideId));
+      }
     } catch (err) {
       console.error("Error updating ride:", err);
     }
   };
 
   if (isLoading) return <p>Loading rides...</p>;
-  if (!rideRequests?.data?.length) return <p>No ride requests yet.</p>;
+  if (!localRides.length) return <p>No ride requests yet.</p>;
 
   return (
     <div className="p-4">
@@ -35,8 +56,8 @@ const AcceptRideRequests: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {rideRequests?.data?.map((ride: any) => (
-            <tr key={ride._id}>
+          {localRides.map((ride) => (
+            <tr key={ride._id} className="hover:bg-gray-50">
               <td className="border px-4 py-2">{ride.pickupLocation}</td>
               <td className="border px-4 py-2">{ride.destinationLocation}</td>
               <td className="border px-4 py-2">{ride.riderEmail}</td>
@@ -49,6 +70,7 @@ const AcceptRideRequests: React.FC = () => {
                     <Button
                       size="sm"
                       onClick={() => handleAction(ride._id, "accept")}
+                      disabled={isUpdating}
                     >
                       Accept
                     </Button>
@@ -56,6 +78,7 @@ const AcceptRideRequests: React.FC = () => {
                       size="sm"
                       variant="destructive"
                       onClick={() => handleAction(ride._id, "reject")}
+                      disabled={isUpdating}
                     >
                       Reject
                     </Button>

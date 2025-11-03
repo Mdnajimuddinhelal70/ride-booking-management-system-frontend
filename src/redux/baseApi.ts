@@ -4,11 +4,12 @@ export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: axiosBaseQuery(),
 
-  //! If you don't use axios then you can use like this----->
-  // baseQuery: fetchBaseQuery({
-  //   baseUrl: config.baseUrl,
-  //   credentials: "include",
-  // }),
-  tagTypes: ["USER", "DRIVER", "RIDER"],
+  tagTypes: ["USER", "DRIVER", "RIDES"],
   endpoints: () => ({}),
 });
+
+//! If you don't use axios then you can use like this----->
+// baseQuery: fetchBaseQuery({
+//   baseUrl: config.baseUrl,
+//   credentials: "include",
+// }),
