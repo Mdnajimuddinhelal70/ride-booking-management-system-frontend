@@ -23,14 +23,12 @@ const AcceptRideRequests: React.FC = () => {
   const handleAction = async (rideId: string, action: "accept" | "reject") => {
     try {
       await updateRideStatus({ rideId, action }).unwrap();
-
       if (action === "accept") {
         const updated = localRides.map((ride) =>
           ride._id === rideId ? { ...ride, status: "accepted" as const } : ride
         );
         setLocalRides(updated);
       }
-
       if (action === "reject") {
         setLocalRides((prev) => prev.filter((ride) => ride._id !== rideId));
       }
