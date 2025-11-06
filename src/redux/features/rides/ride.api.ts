@@ -28,8 +28,6 @@ const rideApi = baseApi.injectEndpoints({
         method: "PATCH",
         data: { action },
       }),
-
-      // invalidatesTags: ["RIDES"],
     }),
   }),
 });

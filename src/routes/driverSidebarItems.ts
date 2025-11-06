@@ -1,6 +1,7 @@
 import AcceptRideRequests from "@/pages/Driver/AcceptRideRequests";
 import DriverAvailability from "@/pages/Driver/DriverAvailability";
-import RideStatus from "@/pages/Driver/RideStatus";
+import RideActions from "@/pages/Driver/RideStatus";
+
 import type { ISidebarItem } from "@/types";
 
 export const driverSidebarItems: ISidebarItem[] = [
@@ -19,8 +20,8 @@ export const driverSidebarItems: ISidebarItem[] = [
       },
       {
         title: "Ride Status",
-        url: "/driver/rideStatus",
-        component: RideStatus,
+        url: "/driver/status",
+        component: RideActions,
       },
     ],
   },
