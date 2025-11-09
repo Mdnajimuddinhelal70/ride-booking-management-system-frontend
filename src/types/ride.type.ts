@@ -14,11 +14,12 @@ export type RideStatus =
   | "completed"
   | "cancelled"
   | "rejected"
-  | "pending";
+  | "pending"
+  | "ongoing";
 
 export interface IStatusHistory {
   status: RideStatus;
-  updatedAt: string; // frontend এ Date string হিসেবে handle করা হয়
+  updatedAt: string;
 }
 
 export interface IRide {
@@ -37,4 +38,5 @@ export interface IRide {
 
   requestedAt: string;
   updatedAt?: string;
+  createdAt: string;
 }

@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useGetRideHistoryQuery } from "@/redux/features/drivers/driver.api";
-
+import type { IRide } from "@/types/ride.type";
 import { useState } from "react";
 
 const DriverRideHistory = () => {
@@ -9,14 +9,13 @@ const DriverRideHistory = () => {
 
   const { data, isLoading } = useGetRideHistoryQuery({
     page,
-    limit: 5,
+    limit: 2,
     status,
   });
 
   if (isLoading) return <div>Loading...</div>;
 
-  const rides = data?.data?.rides || [];
-  console.log(rides);
+  const rides: IRide[] = data?.data?.rides || [];
 
   return (
     <div className="p-4">
@@ -31,29 +30,62 @@ const DriverRideHistory = () => {
         <option value="">All</option>
         <option value="completed">Completed</option>
         <option value="cancelled">Cancelled</option>
+        <option value="requested">Requested</option>
+        <option value="accepted">Accepted</option>
       </select>
 
       {/* Ride List */}
       <ul>
-        {rides.map((ride) => (
-          <li
-            key={ride._id}
-            className="border p-3 rounded mb-2 flex justify-between"
-          >
-            <div>
-              <p>
-                <b>From:</b> {ride.pickupLocation}
-              </p>
-              <p>
-                <b>To:</b> {ride.destinationLocation}
-              </p>
-              <p>
-                <b>Status:</b> {ride.status}
-              </p>
-            </div>
-            <span>{new Date(ride.createdAt).toLocaleDateString()}</span>
-          </li>
-        ))}
+        {rides.map((ride) => {
+          let statusColor = "";
+
+          switch (ride.status) {
+            case "completed":
+              statusColor = "text-green-600 bg-green-100";
+              break;
+            case "cancelled":
+              statusColor = "text-red-600 bg-red-100";
+              break;
+            case "requested":
+              statusColor = "text-yellow-600 bg-yellow-100";
+              break;
+            case "accepted":
+              statusColor = "text-cyan-600 bg-cyan-200";
+              break;
+            case "ongoing":
+              statusColor = "text-blue-600 bg-blue-100";
+              break;
+            default:
+              statusColor = "text-gray-600 bg-gray-100";
+          }
+
+          return (
+            <li
+              key={ride._id}
+              className="border p-3 rounded mb-2 flex justify-between items-center"
+            >
+              <div>
+                <p>
+                  <b className="text-xl">From:</b> {ride.pickupLocation}
+                </p>
+                <p>
+                  <b className="text-xl">To:</b> {ride.destinationLocation}
+                </p>
+                <p>
+                  <b>Status:</b>{" "}
+                  <span
+                    className={`px-2 py-1 rounded-md font-semibold ${statusColor}`}
+                  >
+                    {ride.status}
+                  </span>
+                </p>
+              </div>
+              <span className="text-sm text-gray-500">
+                {new Date(ride.createdAt).toLocaleDateString()}
+              </span>
+            </li>
+          );
+        })}
       </ul>
 
       {/* Pagination */}
