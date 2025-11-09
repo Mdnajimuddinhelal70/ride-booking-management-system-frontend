@@ -16,7 +16,7 @@ const driverApi = baseApi.injectEndpoints({
         url: `/driver/${id}`,
         method: "GET",
       }),
-      providesTags: ["DRIVER"],
+      providesTags: ["RIDES"],
     }),
 
     updateRideStatus: builder.mutation({
@@ -44,6 +44,14 @@ const driverApi = baseApi.injectEndpoints({
       }),
       providesTags: ["RIDES"],
     }),
+    getRideHistory: builder.query({
+      query: ({ page = 1, limit = 10, status }) => ({
+        url: `/driver/history`,
+        method: "GET",
+        params: { page, limit, status },
+      }),
+      providesTags: ["RIDES"],
+    }),
   }),
 });
 
@@ -53,4 +61,5 @@ export const {
   useGetActiveRideQuery,
   useGetRideByIdQuery,
   useUpdateRideStatusMutation,
+  useGetRideHistoryQuery,
 } = driverApi;
