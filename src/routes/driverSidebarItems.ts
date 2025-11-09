@@ -1,5 +1,6 @@
 import AcceptRideRequests from "@/pages/Driver/AcceptRideRequests";
 import DriverAvailability from "@/pages/Driver/DriverAvailability";
+import DriverProfile from "@/pages/Driver/DriverProfile";
 import DriverRideHistory from "@/pages/Driver/DriverRideHistory";
 import RideStatus from "@/pages/Driver/RideStatus";
 
@@ -15,7 +16,7 @@ export const driverSidebarItems: ISidebarItem[] = [
         component: AcceptRideRequests,
       },
       {
-        title: "Accept Ride Requests",
+        title: "Driver Availability",
         url: "/driver/availability",
         component: DriverAvailability,
       },
@@ -28,6 +29,11 @@ export const driverSidebarItems: ISidebarItem[] = [
         title: "Ride History",
         url: "/driver/history",
         component: DriverRideHistory,
+      },
+      {
+        title: "Driver Profile",
+        url: "/driver/profile",
+        component: DriverProfile,
       },
     ],
   },

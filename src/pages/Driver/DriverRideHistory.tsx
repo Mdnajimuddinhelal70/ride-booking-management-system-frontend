@@ -16,6 +16,7 @@ const DriverRideHistory = () => {
   if (isLoading) return <div>Loading...</div>;
 
   const rides: IRide[] = data?.data?.rides || [];
+  console.log(rides);
 
   return (
     <div className="p-4">
