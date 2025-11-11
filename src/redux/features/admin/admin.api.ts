@@ -27,6 +27,14 @@ const adminApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["AdminUsers"],
     }),
+    getAllRides: builder.query({
+      query: (filters) => ({
+        url: "/admin/all",
+        method: "GET",
+        params: filters,
+      }),
+      providesTags: ["AdminUsers"],
+    }),
   }),
 });
 
@@ -34,4 +42,5 @@ export const {
   useGetAllUsersQuery,
   useUpdateUserStatusMutation,
   useUpdateDriverApprovalMutation,
+  useGetAllRidesQuery,
 } = adminApi;

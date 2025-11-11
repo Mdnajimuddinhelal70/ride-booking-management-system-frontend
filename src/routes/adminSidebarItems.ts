@@ -1,5 +1,5 @@
-import AddRide from "@/pages/Admin/AddRide";
 import AdminUserManagement from "@/pages/Admin/AdminUserManagement";
+import RideOversight from "@/pages/Admin/RideOversight";
 import type { ISidebarItem } from "@/types";
 
 export const adminSidebarItems: ISidebarItem[] = [
@@ -12,9 +12,9 @@ export const adminSidebarItems: ISidebarItem[] = [
         component: AdminUserManagement,
       },
       {
-        title: "Add Ride",
-        url: "/admin/add-ride",
-        component: AddRide,
+        title: "Ride Oversight",
+        url: "/admin/all-rides",
+        component: RideOversight,
       },
     ],
   },

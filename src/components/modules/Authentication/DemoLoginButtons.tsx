@@ -15,7 +15,7 @@ const demoUsers = {
 };
 
 const routeMap = {
-  admin: "/admin/add-ride",
+  admin: "/admin/user-mangement",
   driver: "/driver/accept-rideRequests",
   rider: "/rider/ride-request",
 };
