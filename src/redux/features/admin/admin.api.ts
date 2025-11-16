@@ -35,6 +35,30 @@ const adminApi = baseApi.injectEndpoints({
       }),
       providesTags: ["AdminUsers"],
     }),
+
+    getSummary: builder.query({
+      query: ({ startDate, endDate }) => ({
+        url: `/admin/summary`,
+        params: { startDate, endDate },
+      }),
+      providesTags: ["Analytics"],
+    }),
+
+    getTrends: builder.query({
+      query: ({ metric, groupBy, startDate, endDate }) => ({
+        url: `/admin/trends`,
+        params: { metric, groupBy, startDate, endDate },
+      }),
+      providesTags: ["Analytics"],
+    }),
+
+    getTopDrivers: builder.query({
+      query: ({ startDate, endDate, limit }) => ({
+        url: `/admin/top-drivers`,
+        params: { startDate, endDate, limit },
+      }),
+      providesTags: ["Analytics"],
+    }),
   }),
 });
 
@@ -43,4 +67,7 @@ export const {
   useUpdateUserStatusMutation,
   useUpdateDriverApprovalMutation,
   useGetAllRidesQuery,
+  useGetSummaryQuery,
+  useGetTrendsQuery,
+  useGetTopDriversQuery,
 } = adminApi;

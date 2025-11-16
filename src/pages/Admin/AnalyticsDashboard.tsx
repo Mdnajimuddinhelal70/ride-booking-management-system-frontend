@@ -36,8 +36,8 @@ export default function AnalyticsDashboard() {
     { date: "Sun", rides: 70, revenue: 3000 },
   ];
 
-  const [metric, setMetric] = useState("rides"); // rides | revenue
-  const [groupBy, setGroupBy] = useState("day"); // day | week | month
+  const [metric, setMetric] = useState("rides");
+  const [groupBy, setGroupBy] = useState("day");
 
   // Fake Top Drivers
   const topDrivers = [
