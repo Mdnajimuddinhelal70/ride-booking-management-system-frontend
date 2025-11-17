@@ -59,6 +59,13 @@ const adminApi = baseApi.injectEndpoints({
       }),
       providesTags: ["Analytics"],
     }),
+    getAdminUsers: builder.query({
+      query: (params) => ({
+        url: `/admin/users`,
+        params,
+      }),
+      providesTags: ["RIDES"],
+    }),
   }),
 });
 
@@ -70,4 +77,5 @@ export const {
   useGetSummaryQuery,
   useGetTrendsQuery,
   useGetTopDriversQuery,
+  useGetAdminUsersQuery,
 } = adminApi;

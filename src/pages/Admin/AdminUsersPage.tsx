@@ -1,19 +1,33 @@
-import { useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useGetAdminUsersQuery } from "@/redux/features/admin/admin.api";
+import { useState } from "react";
 
 export default function AdminUsersPage() {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
+  const role = "";
+  const { data, isLoading } = useGetAdminUsersQuery({
+    search,
+    role,
+    status,
+    page: 1,
+    limit: 10,
+  });
 
-  const users = [
-    { id: 1, name: "John", email: "john@mail.com", status: "active" },
-    { id: 2, name: "Sara", email: "sara@mail.com", status: "inactive" },
-    { id: 3, name: "Rafi", email: "rafi@mail.com", status: "active" },
-  ];
+  if (isLoading) return <div>Data Loading...</div>;
 
-  const filtered = users.filter((u) => {
+  const users = data?.data || [];
+
+  const filtered = users?.filter((u: any) => {
     const matchSearch = u.name.toLowerCase().includes(search.toLowerCase());
     const matchStatus = status ? u.status === status : true;
     return matchSearch && matchStatus;
@@ -47,10 +61,20 @@ export default function AdminUsersPage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
-            {filtered.map((user) => (
-              <div key={user.id} className="p-3 border rounded-xl flex justify-between">
-                <span>{user.name} — {user.email}</span>
-                <span className={user.status === "active" ? "text-green-600" : "text-red-600"}>
+            {filtered.map((user: any) => (
+              <div
+                key={user._id}
+                className="p-3 border rounded-xl flex justify-between"
+              >
+                <span>
+                  {user.name} — {user.email}
+                </span>
+
+                <span
+                  className={
+                    user.status === "active" ? "text-green-600" : "text-red-600"
+                  }
+                >
                   {user.status}
                 </span>
               </div>
