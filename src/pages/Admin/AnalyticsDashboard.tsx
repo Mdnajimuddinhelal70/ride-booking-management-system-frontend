@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Select,
@@ -6,6 +7,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  useGetSummaryQuery,
+  useGetTopDriversQuery,
+  useGetTrendsQuery,
+} from "@/redux/features/admin/admin.api";
 import { useState } from "react";
 import {
   CartesianGrid,
@@ -18,33 +24,17 @@ import {
 } from "recharts";
 
 export default function AnalyticsDashboard() {
-  const summaryData = {
-    totalRides: 320,
-    totalRevenue: 54000,
-    activeDrivers: 45,
-    activeRiders: 120,
-  };
-
-  // Fake chart data
-  const chartData = [
-    { date: "Mon", rides: 30, revenue: 1200 },
-    { date: "Tue", rides: 40, revenue: 1500 },
-    { date: "Wed", rides: 35, revenue: 1300 },
-    { date: "Thu", rides: 50, revenue: 2000 },
-    { date: "Fri", rides: 60, revenue: 2500 },
-    { date: "Sat", rides: 90, revenue: 3500 },
-    { date: "Sun", rides: 70, revenue: 3000 },
-  ];
-
   const [metric, setMetric] = useState("rides");
   const [groupBy, setGroupBy] = useState("day");
 
-  // Fake Top Drivers
-  const topDrivers = [
-    { name: "John Driver", rides: 120, earnings: 15000 },
-    { name: "Adam Smith", rides: 90, earnings: 11000 },
-    { name: "Rohan Das", rides: 75, earnings: 9000 },
-  ];
+  const { data: summaryRes } = useGetSummaryQuery({});
+  const summary = summaryRes?.data || {};
+
+  const { data: trendsRes } = useGetTrendsQuery({ metric, groupBy });
+  const chartData = trendsRes?.data || [];
+
+  const { data: topDriversRes } = useGetTopDriversQuery({ limit: 10 });
+  const topDrivers = topDriversRes?.data || [];
 
   return (
     <div className="p-6 space-y-6">
@@ -57,7 +47,7 @@ export default function AnalyticsDashboard() {
             <CardTitle>Total Rides</CardTitle>
           </CardHeader>
           <CardContent className="text-3xl font-semibold">
-            {summaryData.totalRides}
+            {summary.totalRides || 0}
           </CardContent>
         </Card>
 
@@ -66,7 +56,7 @@ export default function AnalyticsDashboard() {
             <CardTitle>Total Revenue</CardTitle>
           </CardHeader>
           <CardContent className="text-3xl font-semibold">
-            ${summaryData.totalRevenue}
+            ${summary.totalRevenue || 0}
           </CardContent>
         </Card>
 
@@ -75,7 +65,7 @@ export default function AnalyticsDashboard() {
             <CardTitle>Active Drivers</CardTitle>
           </CardHeader>
           <CardContent className="text-3xl font-semibold">
-            {summaryData.activeDrivers}
+            {summary.activeDrivers || 0}
           </CardContent>
         </Card>
 
@@ -84,7 +74,7 @@ export default function AnalyticsDashboard() {
             <CardTitle>Active Riders</CardTitle>
           </CardHeader>
           <CardContent className="text-3xl font-semibold">
-            {summaryData.activeRiders}
+            {summary.activeRiders || 0}
           </CardContent>
         </Card>
       </div>
@@ -94,9 +84,8 @@ export default function AnalyticsDashboard() {
         <CardHeader>
           <div className="flex justify-between items-center">
             <CardTitle>Ride & Revenue Trends</CardTitle>
-
             <div className="flex gap-4">
-              <Select onValueChange={setMetric}>
+              <Select onValueChange={setMetric} defaultValue={metric}>
                 <SelectTrigger className="w-[140px]">
                   <SelectValue placeholder="Metric" />
                 </SelectTrigger>
@@ -106,7 +95,7 @@ export default function AnalyticsDashboard() {
                 </SelectContent>
               </Select>
 
-              <Select onValueChange={setGroupBy}>
+              <Select onValueChange={setGroupBy} defaultValue={groupBy}>
                 <SelectTrigger className="w-[140px]">
                   <SelectValue placeholder="Group By" />
                 </SelectTrigger>
@@ -125,14 +114,13 @@ export default function AnalyticsDashboard() {
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
+                <XAxis dataKey="label" />
                 <YAxis />
                 <Tooltip />
-
                 <Line
                   type="monotone"
                   dataKey={metric}
-                  stroke="#4f46e5"
+                  stroke="blue"
                   strokeWidth={3}
                 />
               </LineChart>
@@ -156,7 +144,7 @@ export default function AnalyticsDashboard() {
               </tr>
             </thead>
             <tbody>
-              {topDrivers.map((driver, idx) => (
+              {topDrivers.map((driver: any, idx: any) => (
                 <tr key={idx} className="border-b">
                   <td className="p-2">{driver.name}</td>
                   <td className="p-2">{driver.rides}</td>
