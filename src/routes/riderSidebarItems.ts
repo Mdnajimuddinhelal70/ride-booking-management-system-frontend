@@ -18,7 +18,7 @@ export const riderSidebarItems: ISidebarItem[] = [
         component: RideHistory,
       },
       {
-        title: "Rider Profile",
+        title: "Profile",
         url: "/rider/ride-profile",
         component: ProfileUpdate,
       },

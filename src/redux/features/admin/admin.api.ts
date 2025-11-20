@@ -66,6 +66,22 @@ const adminApi = baseApi.injectEndpoints({
       }),
       providesTags: ["RIDES"],
     }),
+    updateProfile: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/admin/${id}/profile`,
+        method: "PUT",
+        data: data,
+      }),
+      invalidatesTags: ["USER"],
+    }),
+
+    changePassword: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/admin/${id}/change-password`,
+        method: "PUT",
+        data: data,
+      }),
+    }),
   }),
 });
 

@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useState } from "react";
+import axios from "axios";
+import { createContext, useContext, useEffect, useState } from "react";
 
 type User = {
   name: string;
@@ -9,27 +11,49 @@ type User = {
 
 type AuthContextType = {
   user: User | null;
-  login: (userData: User) => void;
-  logout: () => void;
+  loading: boolean;
+  logout: () => Promise<void>;
+  refreshUser: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const login = (userData: User) => {
-    setUser(userData);
-    localStorage.setItem("user", JSON.stringify(userData));
+  // Load user from /me route using cookie
+  const refreshUser = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/v1/user/me", {
+        withCredentials: true,
+      });
+
+      setUser(res.data.data);
+    } catch (error) {
+      setUser(null);
+    }
   };
 
-  const logout = () => {
+  useEffect(() => {
+    const loadUser = async () => {
+      await refreshUser();
+      setLoading(false);
+    };
+    loadUser();
+  }, []);
+
+  const logout = async () => {
+    await axios.post(
+      "http://localhost:5000/api/v1/auth/logout",
+      {},
+      { withCredentials: true }
+    );
     setUser(null);
-    localStorage.removeItem("user");
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, logout, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );
