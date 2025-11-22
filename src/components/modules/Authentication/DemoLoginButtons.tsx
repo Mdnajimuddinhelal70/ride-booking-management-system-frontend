@@ -9,8 +9,8 @@ import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
 const demoUsers = {
-  admin: { email: "admin@gmail.com", password: "123456!@NN" },
-  driver: { email: "driver@gmail.com", password: "123456!@NN" },
+  admin: { email: "admin@gmail.com", password: "najim12" },
+  driver: { email: "driver@gmail.com", password: "najim12" },
   rider: { email: "rider@gmail.com", password: "najim12" },
 };
 
