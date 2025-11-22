@@ -66,7 +66,7 @@ const adminApi = baseApi.injectEndpoints({
       }),
       providesTags: ["RIDES"],
     }),
-    updateProfile: builder.mutation({
+    updateAdminProfile: builder.mutation({
       query: ({ id, data }) => ({
         url: `/admin/${id}/profile`,
         method: "PUT",
@@ -75,7 +75,7 @@ const adminApi = baseApi.injectEndpoints({
       invalidatesTags: ["USER"],
     }),
 
-    changePassword: builder.mutation({
+    updateAdminChangePassword: builder.mutation({
       query: ({ id, data }) => ({
         url: `/admin/${id}/change-password`,
         method: "PUT",
@@ -94,4 +94,6 @@ export const {
   useGetTrendsQuery,
   useGetTopDriversQuery,
   useGetAdminUsersQuery,
+  useUpdateAdminProfileMutation,
+  useUpdateAdminChangePasswordMutation,
 } = adminApi;
