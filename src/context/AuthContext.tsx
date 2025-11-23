@@ -25,9 +25,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // Load user from /me route using cookie
   const refreshUser = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/v1/user/me", {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        "https://ride-booking-system-eta.vercel.app/api/v1/user/me",
+        {
+          withCredentials: true,
+        }
+      );
 
       setUser(res.data.data);
     } catch (error) {
@@ -45,7 +48,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logout = async () => {
     await axios.post(
-      "http://localhost:5000/api/v1/auth/logout",
+      "https://ride-booking-system-eta.vercel.app/api/v1/auth/logout",
       {},
       { withCredentials: true }
     );
