@@ -26,11 +26,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const refreshUser = async () => {
     try {
       const res = await axios.get(
-        "https://ride-booking-system-eta.vercel.app/api/v1/user/me",
+        `${import.meta.env.VITE_BACKEND_URL}/user/me`,
+
         {
           withCredentials: true,
         }
       );
+      console.log(import.meta.env.VITE_BACKEND_URL);
 
       setUser(res.data.data);
     } catch (error) {
@@ -48,7 +50,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logout = async () => {
     await axios.post(
-      "https://ride-booking-system-eta.vercel.app/api/v1/auth/logout",
+      `${import.meta.env.VITE_BACKEND_URL}/auth/logout`,
       {},
       { withCredentials: true }
     );

@@ -25,7 +25,7 @@ const DemoLoginButtons = () => {
   const navigate = useNavigate();
   const { refetch } = useUserInfoQuery(null);
 
-  const handleDemoLogin = async (role: TRole) => {
+  const handleDemoLogin: any = async (role: TRole) => {
     try {
       const credentials = demoUsers[role];
       await login(credentials).unwrap();
