@@ -10,7 +10,7 @@ import { toast } from "sonner";
 
 const demoUsers = {
   admin: { email: "admin@gmail.com", password: "najim12" },
-  driver: { email: "driver@gmail.com", password: "najim12" },
+  driver: { email: "driver1@gmail.com", password: "najim12" },
   rider: { email: "rider@gmail.com", password: "najim12" },
 };
 

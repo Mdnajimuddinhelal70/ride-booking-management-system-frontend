@@ -21,7 +21,7 @@ import projectLogo from "../../assets/icons/image.png";
 import { ModeToggle } from "./mode-toggle";
 
 const navigationLinks = [
-  { href: "/", label: "Home", active: true },
+  { href: "/", label: "Home" },
   { href: "/feature", label: "Features" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
@@ -29,35 +29,40 @@ const navigationLinks = [
 ];
 
 export default function Navbar() {
-  const { data: userData } = useUserInfoQuery(undefined);
-  console.log(userData);
-  const [logout] = useLogoutMutation();
+  const { data, isLoading } = useUserInfoQuery(undefined);
+  const me = data?.data;
+
+  const [logout, { isLoading: logoutLoading }] = useLogoutMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    await logout(undefined).unwrap();
-    dispatch(authApi.util.resetApiState());
+    try {
+      await logout(undefined).unwrap();
 
-    navigate("/login", { replace: true });
+      dispatch(authApi.util.resetApiState());
+      navigate("/login", { replace: true });
+    } catch (err) {
+      console.error("Logout failed", err);
+    }
   };
 
   return (
     <header className="border-b px-4 md:px-6 sticky top-0 z-50 bg-white dark:bg-gray-900">
       <div className="flex h-16 items-center justify-between gap-4">
-        {/* Left side */}
         <div className="flex items-center gap-2">
           <Popover>
             <PopoverTrigger asChild>
               <Button
-                className="group size-8 md:hidden"
+                className="group md:hidden"
                 variant="ghost"
                 size="icon"
+                aria-label="Open menu"
               >
                 <svg
                   className="pointer-events-none"
-                  width={16}
-                  height={16}
+                  width={20}
+                  height={20}
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -66,23 +71,25 @@ export default function Navbar() {
                   strokeLinejoin="round"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path d="M4 12L20 12" />
-                  <path d="M4 12H20" />
-                  <path d="M4 12H20" />
+                  <path d="M4 6h16" />
+                  <path d="M4 12h16" />
+                  <path d="M4 18h16" />
                 </svg>
               </Button>
             </PopoverTrigger>
-            <PopoverContent align="start" className="w-36 p-1 md:hidden">
-              <NavigationMenu className="max-w-none *:w-full">
-                <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
-                  {navigationLinks.map((link, index) => (
-                    <NavigationMenuItem key={index} className="w-full">
-                      <NavigationMenuLink
-                        href={link.href}
-                        className="py-1.5"
-                        active={link.active}
-                      >
-                        {link.label}
+
+            <PopoverContent align="start" className="w-48 p-1 md:hidden">
+              <NavigationMenu className="max-w-none">
+                <NavigationMenuList className="flex-col items-start gap-0">
+                  {navigationLinks.map((link) => (
+                    <NavigationMenuItem key={link.href} className="w-full">
+                      <NavigationMenuLink asChild>
+                        <Link
+                          to={link.href}
+                          className="block w-full py-2 px-3 rounded hover:bg-muted"
+                        >
+                          {link.label}
+                        </Link>
                       </NavigationMenuLink>
                     </NavigationMenuItem>
                   ))}
@@ -92,24 +99,26 @@ export default function Navbar() {
           </Popover>
 
           <div className="flex items-center gap-6">
-            <h3 className="text-red-500 font-extrabold">
+            <h3 className="text-red-500 font-extrabold flex items-center">
               <img
                 src={projectLogo}
                 alt="Logo"
-                className="h-4 w-5 text-4xl text-amber-500"
+                className="h-6 w-6 object-contain mr-2"
               />
+              <span className="sr-only">Project Logo</span>
             </h3>
 
-            <NavigationMenu className="max-md:hidden">
-              <NavigationMenuList className="gap-2">
-                {navigationLinks.map((link, index) => (
-                  <NavigationMenuItem key={index}>
-                    <NavigationMenuLink
-                      active={link.active}
-                      href={link.href}
-                      className="text-muted-foreground hover:text-primary py-1.5 font-medium"
-                    >
-                      {link.label}
+            <NavigationMenu className="hidden md:block">
+              <NavigationMenuList className="flex gap-2 items-center">
+                {navigationLinks.map((link) => (
+                  <NavigationMenuItem key={link.href}>
+                    <NavigationMenuLink asChild>
+                      <Link
+                        to={link.href}
+                        className="text-muted-foreground hover:text-primary py-1.5 font-medium"
+                      >
+                        {link.label}
+                      </Link>
                     </NavigationMenuLink>
                   </NavigationMenuItem>
                 ))}
@@ -118,18 +127,19 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Right side */}
         <div className="flex items-center gap-2">
-          {userData && (
+          {isLoading ? (
+            <div className="h-8 w-20 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
+          ) : me ? (
             <Button
               onClick={handleLogout}
               variant="outline"
               className="text-sm"
+              disabled={logoutLoading}
             >
               Logout
             </Button>
-          )}
-          {!userData && (
+          ) : (
             <Button asChild className="text-sm">
               <Link to="/login">Login</Link>
             </Button>

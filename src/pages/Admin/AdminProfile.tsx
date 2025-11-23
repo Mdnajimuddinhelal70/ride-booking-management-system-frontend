@@ -15,7 +15,6 @@ export default function AdminProfile() {
   const [updateProfile] = useUpdateAdminProfileMutation();
   const [changePassword] = useUpdateAdminChangePasswordMutation();
   const { data: me, isLoading } = useUserInfoQuery(undefined);
-  console.log("ME DATA:", me?.data);
 
   const [profile, setProfile] = useState({
     name: "",
@@ -28,7 +27,6 @@ export default function AdminProfile() {
     newPassword: "",
   });
 
-  // Prefill data when loaded
   useEffect(() => {
     if (me?.data) {
       setProfile({
@@ -39,17 +37,25 @@ export default function AdminProfile() {
     }
   }, [me]);
 
+  // ✅ Profile Update Handler
   const handleProfileUpdate = async () => {
     try {
-      await updateProfile({ id: me?.data?._id, data: profile });
-      toast.success("Password changed successfully!");
+      await updateProfile({ id: me?.data?._id, data: profile }).unwrap();
+      toast.success("Profile updated successfully!");
     } catch (err: any) {
-      toast.error(err.data?.message || "Failed to change password");
+      toast.error(err?.data?.message || "Failed to update profile");
     }
   };
 
+  // ✅ Password Change Handler
   const handlePasswordChange = async () => {
-    await changePassword({ id: me?.data?._id, data: passwords });
+    try {
+      await changePassword({ id: me?.data?._id, data: passwords }).unwrap();
+      toast.success("Password changed successfully!");
+      setPasswords({ oldPassword: "", newPassword: "" });
+    } catch (err: any) {
+      toast.error(err?.data?.message || "Failed to change password");
+    }
   };
 
   if (isLoading) return <p>Loading...</p>;
@@ -128,6 +134,7 @@ export default function AdminProfile() {
               <Input
                 type="password"
                 placeholder="Old Password"
+                value={passwords.oldPassword}
                 onChange={(e) =>
                   setPasswords({ ...passwords, oldPassword: e.target.value })
                 }
@@ -140,6 +147,7 @@ export default function AdminProfile() {
               <Input
                 type="password"
                 placeholder="New Password"
+                value={passwords.newPassword}
                 onChange={(e) =>
                   setPasswords({ ...passwords, newPassword: e.target.value })
                 }
