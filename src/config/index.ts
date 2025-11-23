@@ -1,5 +1,5 @@
 const config = {
-  baseUrl: import.meta.env.VITE_BACKEND_URL,
+  baseURL: import.meta.env.VITE_BACKEND_URL,
 };
 
 export default config;
