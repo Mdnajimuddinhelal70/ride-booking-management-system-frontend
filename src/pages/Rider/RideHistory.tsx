@@ -13,7 +13,7 @@ import { useRiderHistoryQuery } from "@/redux/features/rides/ride.api";
 const RideHistory = () => {
   const { data, isLoading, isError } = useRiderHistoryQuery();
   const rides = data?.data || [];
-  console.log(rides);
+  // console.log(rides);
   if (isLoading) return <p className="text-center mt-10">Loading...</p>;
   if (isError)
     return (

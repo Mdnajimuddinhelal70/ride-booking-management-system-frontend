@@ -7,7 +7,7 @@ import {
 
 export default function RideStatus() {
   const { data: ride, isLoading } = useGetActiveRideQuery(null);
-  console.log(ride?.data);
+  // console.log(ride?.data);
   const [updateRideStatus] = useUpdateRideStatusMutation();
 
   const handleStatusUpdate = (newStatus: string) => {

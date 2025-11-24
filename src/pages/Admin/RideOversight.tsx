@@ -33,7 +33,7 @@ export default function RideOversight() {
 
   const { data, isLoading } = useGetAllRidesQuery(filters);
   const rides = data?.data || [];
-  console.log(rides);
+  // console.log(rides);
 
   return (
     <Card className="p-4 shadow-lg">

@@ -24,7 +24,7 @@ export default function RideRequestForm() {
     try {
       const res = await createRideRequest(ride).unwrap();
       toast.success(res.message);
-      console.log("Ride Created:", res.data);
+      // console.log("Ride Created:", res.data);
       setRide({
         pickupLocation: "",
         destinationLocation: "",

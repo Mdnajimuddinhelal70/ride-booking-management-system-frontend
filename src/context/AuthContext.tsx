@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           withCredentials: true,
         }
       );
-      console.log(import.meta.env.VITE_BACKEND_URL);
+      // console.log(import.meta.env.VITE_BACKEND_URL);
 
       setUser(res.data.data);
     } catch (error) {

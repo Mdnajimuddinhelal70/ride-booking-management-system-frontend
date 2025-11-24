@@ -1,69 +1,215 @@
-# React + TypeScript + Vite
+# Ride Management Booking System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full‑stack MERN (MongoDB, Express.js, React.js, Node.js) project where three different user roles — **Admin**, **Rider**, and **Driver** — use the system for ride booking, ride management, and overall platform monitoring.
 
-Currently, two official plugins are available:
+This README explains the features, technologies, installation steps, and how each role works.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## Project Overview
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+This is a ride booking platform where:
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Riders** can book rides.
+- **Drivers** can accept or reject rides.
+- **Admins** can manage users, rides, and track system activity.
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+The complete system includes:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Authentication (JWT + Cookies)
+- Role‑based dashboard
+- Ride management
+- Profile update
+- Password change
+- Auto‑assign driver logic
+
+---
+
+## Features
+
+### Authentication
+
+- Login & Register
+- Cookie‑based JWT auth
+- Role checking (Admin/Rider/Driver)
+- Protected routes (frontend + backend)
+
+### Admin Features
+
+- View all users
+- Manage riders & drivers
+- Update profile
+- Change password
+- View all rides
+- Approve/Block users
+
+### Rider Features
+
+- Book a ride
+- Cancel ride
+- View ride history
+- Update profile
+- Change password
+
+### 🏍 Driver Features
+
+- Accept or reject rides
+- View active/previous rides
+- Update profile
+- Change password
+- Earnings calculation
+
+---
+
+## Technologies Used
+
+### **Frontend**
+
+- React.js
+- Redux Toolkit Query (RTK Query)
+- React Router
+- Tailwind CSS
+- shadcn/ui
+- Axios
+
+### **Backend**
+
+- Node.js
+- Express.js
+- MongoDB + Mongoose
+- JSON Web Token (JWT)
+- Cookie Parser
+- Bcrypt
+
+---
+
+## Installation
+
+### 1️⃣ Clone the repository
+
+```
+# Frontend Clone
+git clone https://github.com/Mdnajimuddinhelal70/ride-booking-management-system-frontend.git
+
+# Backend Clone
+git clone https://github.com/Mdnajimuddinhelal70/ride-booking-management-system.git
+
+
+### 2️⃣ Install backend dependencies
+
+
+
+## Environment Variables
+
+Create a `.env` file in the **backend** folder.
+
+
+PORT=5000
+DB_URL=your_mongodb_connection_uri
+NODE_ENV=development
+BCRYPT_SALT_ROUND=10
+JWT_ACCESS_SECRET=your_jwt_secret
+JWT_ACCESS_EXPIRES=7d
+FRONTEND_URL=http://localhost:5173
+
+
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## ▶️ Run the Project
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Start Backend
+
 ```
+
+cd backend
+npm run dev
+
+```
+
+### Start Frontend
+
+```
+
+cd frontend
+npm run dev
+
+```
+
+---
+
+## 🧪 API Structure (Short Overview)
+
+```
+
+/api/v1/user
+/api/v1/auth
+/api/v1/ride
+/api/v1/driver
+/api/v1/admin
+
+```
+
+Each API is protected based on user roles.
+
+---
+
+## Project Folder Structure (Short)
+
+```
+
+backend/
+controllers/
+services/
+routes/
+models/
+middlewares/
+utils/
+frontend/
+src/
+components/
+pages/
+redux/
+hooks/
+layouts/
+
+```
+
+---
+
+## Admin Profile Example (Frontend)
+
+Admin can update:
+
+- Name
+- Phone number
+- Address
+
+Admin can also change password.
+
+---
+
+## Key Points
+
+- Full MERN stack project
+- Role‑based dashboards
+- Secure backend system
+- Elegant UI with Tailwind + shadcn
+- Real‑life ride booking logic
+
+---
+
+## Live Demo
+
+Frontend Live: https://ride-booking-management-system-fron-tau.vercel.app  
+Backend API Live: https://ride-booking-management-system.vercel.app
+
+## GitHub Repositories
+
+Frontend Repo: https://github.com/Mdnajimuddinhelal70/ride-booking-management-system-frontend
+Backend Repo:https://github.com/Mdnajimuddinhelal70/ride-booking-management-system
+
+## Author
+
+Developed by **Najim Uddin** as part of a full‑stack development assignment.

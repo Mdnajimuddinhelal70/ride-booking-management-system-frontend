@@ -9,7 +9,7 @@ import { toast } from "sonner";
 
 const DriverProfile = () => {
   const { data, isLoading } = useGetDriverProfileQuery(undefined);
-  console.log(data?.data);
+  // console.log(data?.data);
   const [updateProfile] = useUpdateDriverProfileMutation();
 
   const [formData, setFormData] = useState({
