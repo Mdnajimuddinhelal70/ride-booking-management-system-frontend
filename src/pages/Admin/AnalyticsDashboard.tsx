@@ -32,6 +32,7 @@ export default function AnalyticsDashboard() {
 
   const { data: trendsRes } = useGetTrendsQuery({ metric, groupBy });
   const chartData = trendsRes?.data || [];
+  console.log(chartData);
 
   const { data: topDriversRes } = useGetTopDriversQuery({ limit: 10 });
   const topDrivers = topDriversRes?.data || [];

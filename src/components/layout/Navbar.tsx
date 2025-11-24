@@ -99,13 +99,15 @@ export default function Navbar() {
           </Popover>
 
           <div className="flex items-center gap-6">
-            <h3 className="text-red-500 font-extrabold flex items-center">
+            <h3 className="text-blue-800 font-bold flex items-center">
               <img
                 src={projectLogo}
                 alt="Logo"
                 className="h-6 w-6 object-contain mr-2"
               />
-              <span className="sr-only">Project Logo</span>
+              <span className="text-sm md:text-2xl">
+                Ride Booking Management System
+              </span>
             </h3>
 
             <NavigationMenu className="hidden md:block">

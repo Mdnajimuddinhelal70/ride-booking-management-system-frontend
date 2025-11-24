@@ -33,7 +33,7 @@ const RideHistory = () => {
               <TableHead className="font-semibold">Pickup</TableHead>
               <TableHead className="font-semibold">Destination</TableHead>
               <TableHead className="font-semibold">Status</TableHead>
-              <TableHead className="font-semibold">Driver</TableHead>
+
               <TableHead className="font-semibold">Fare</TableHead>
               <TableHead className="font-semibold">Requested At</TableHead>
             </TableRow>
@@ -55,7 +55,7 @@ const RideHistory = () => {
                 >
                   {ride.status}
                 </TableCell>
-                <TableCell>{ride.driverName}</TableCell>
+
                 <TableCell>${ride.ridePrice}</TableCell>
                 <TableCell>
                   {new Date(ride.requestedAt).toLocaleString()}
