@@ -15,7 +15,7 @@ export default function AboutUsPage() {
   return (
     <main className="min-h-screen">
       {/* Hero / Intro */}
-      <section className="relative isolate overflow-hidden bg-gradient-to-br from-indigo-600 via-violet-600 to-fuchsia-600 text-white">
+      <section className="relative isolate overflow-hidden bg-amber-300">
         <div className="container mx-auto px-4 py-20">
           <div className="mx-auto max-w-3xl text-center">
             <Badge variant="secondary" className="mb-3 text-indigo-700">

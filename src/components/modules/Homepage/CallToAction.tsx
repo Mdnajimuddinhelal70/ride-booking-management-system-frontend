@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router";
 
 export default function CallToAction() {
   return (
-    <section className="relative bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-20">
+    <section className="relative py-20 bg-amber-300">
       <div className="container mx-auto px-4 text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-4">
           Ready to start your journey?
@@ -12,19 +13,19 @@ export default function CallToAction() {
           fingertips.
         </p>
         <div className="flex justify-center gap-4">
-          <Button
-            size="lg"
-            className="bg-white text-indigo-600 hover:bg-gray-200"
-          >
-            Get Started
-          </Button>
-          <Button
-            size="lg"
-            variant="outline"
-            className="border-white text-white hover:bg-white/20"
-          >
-            Learn More
-          </Button>
+          <Link to="/contact">
+            <Button
+              size="lg"
+              className="bg-white text-indigo-600 hover:bg-gray-200"
+            >
+              Get Started
+            </Button>
+          </Link>
+          <Link to="/faq">
+            <Button size="lg" variant="outline" className="border-white">
+              Learn More
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

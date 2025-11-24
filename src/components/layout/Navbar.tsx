@@ -105,9 +105,11 @@ export default function Navbar() {
                 alt="Logo"
                 className="h-6 w-6 object-contain mr-2"
               />
-              <span className="text-sm md:text-2xl">
-                Ride Booking Management System
-              </span>
+              <Link to="/">
+                <span className="text-sm md:text-2xl">
+                  Ride Booking Management System
+                </span>
+              </Link>
             </h3>
 
             <NavigationMenu className="hidden md:block">
