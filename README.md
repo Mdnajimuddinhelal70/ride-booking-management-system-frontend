@@ -106,11 +106,11 @@ Create a `.env` file in the **backend** folder.
 
 PORT=5000
 DB_URL=your_mongodb_connection_uri
-NODE_ENV=development
+NODE_ENV=production
 BCRYPT_SALT_ROUND=10
 JWT_ACCESS_SECRET=your_jwt_secret
 JWT_ACCESS_EXPIRES=7d
-FRONTEND_URL=http://localhost:5173
+FRONTEND_URL=https://ride-booking-system-frontend-khaki.vercel.app/api/v1
 
 
 ```
@@ -202,7 +202,7 @@ Admin can also change password.
 
 ## Live Demo
 
-Frontend Live: https://ride-booking-management-system-fron-tau.vercel.app  
+Frontend Live: https://ride-booking-system-frontend-khaki.vercel.app  
 Backend API Live: https://ride-booking-management-system.vercel.app
 
 ## GitHub Repositories
